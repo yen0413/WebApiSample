@@ -20,10 +20,12 @@ namespace WebApiSample.Service
 
             return Task.FromResult(result);
         }
-        public Task<Customers> GetCustomerByID(Customers _Customer)
+        public Task<Customers> GetCustomerByID(string CustomerID)
         {
+            DynamicParameters dbPara = new();
+            dbPara.Add("CustomerID", CustomerID);
             string sql = @"SELECT * FROM Customers WHERE CustomerID = @CustomerID";
-            var result = _dapperService.Get<Customers>(sql, _Customer, commandType: CommandType.Text);
+            var result = _dapperService.Get<Customers>(sql, dbPara, commandType: CommandType.Text);
             return Task.FromResult(result);
         }
         public Task<int> UpdateCustomerByID(Customers _Customer) 
@@ -41,6 +43,16 @@ namespace WebApiSample.Service
                            ,[Fax] = @Fax
 	                       WHERE [CustomerID] = @CustomerID";
             var result = _dapperService.Execute(sql, _Customer, commandType: CommandType.Text);
+            return Task.FromResult(result);
+        }
+
+        public Task<int> DeleteCustomerByID(string CustomerID)
+        {
+            DynamicParameters dbPara = new();
+            dbPara.Add("CustomerID", CustomerID);
+            string sql = @"DELETE Customers 
+	                       WHERE [CustomerID] = @CustomerID";
+            var result = _dapperService.Execute(sql, dbPara, commandType: CommandType.Text);
             return Task.FromResult(result);
         }
     }

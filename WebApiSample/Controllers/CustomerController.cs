@@ -25,14 +25,13 @@ namespace WebApiSample.Controllers
                 return Task.FromResult(new List<Customers>());
                 throw;
             }
-
         }
-        [HttpPost("GetCustomerByID")]
-        public Task<Customers> GetCustomerByID(Customers customer)
+        [HttpGet("{CustomerID:alpha}")]
+        public Task<Customers> GetCustomerByID(string CustomerID)
         {
             try
             {
-                return _ICustomerService.GetCustomerByID(customer);
+                return _ICustomerService.GetCustomerByID(CustomerID);
             }
             catch (Exception ex)
             {
@@ -54,6 +53,29 @@ namespace WebApiSample.Controllers
                 else
                 {
                     responseMsg = "update fail";
+                }
+                return Task.FromResult(responseMsg);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        [HttpDelete("{CustomerID:alpha}")]
+        public Task<string> DeleteCustomerByID(string CustomerID)
+        {
+            try
+            {
+                var updateResult = _ICustomerService.DeleteCustomerByID(CustomerID).Result;
+                string responseMsg;
+                if (updateResult > 0)
+                {
+                    responseMsg = "delete success";
+                }
+                else
+                {
+                    responseMsg = "delete fail";
                 }
                 return Task.FromResult(responseMsg);
             }

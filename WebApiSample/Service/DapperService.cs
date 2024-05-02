@@ -57,7 +57,6 @@ namespace WebApiSample.Service
                 Console.WriteLine(ex.Message);
                 throw;
             }
-
         }
     }
 }
