@@ -55,5 +55,15 @@ namespace WebApiSample.Service
             var result = _dapperService.Execute(sql, dbPara, commandType: CommandType.Text);
             return Task.FromResult(result);
         }
+
+        public Task<int> PostCustomer(Customers customers) 
+        {
+            string sql = @"INSERT INTO Customers VALUES (
+                            @CustomerID,@CompanyName,@ContactName,
+                            @ContactTitle,@Address,@City,@Region,
+                            @PostalCode,@Country,@Phone,@Fax)";
+            var result = _dapperService.Execute(sql, customers, commandType: CommandType.Text);
+            return Task.FromResult(result);
+        }
     }
 }

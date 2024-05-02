@@ -42,10 +42,10 @@ namespace WebApiSample.Controllers
         [HttpPut("UpdateCustomerByID")]
         public Task<string> UpdateCustomerByID(Customers customer)
         {
+            string responseMsg;
             try
             {
                 var updateResult = _ICustomerService.UpdateCustomerByID(customer).Result;
-                string responseMsg;
                 if (updateResult > 0)
                 {
                     responseMsg = "update success";
@@ -54,21 +54,21 @@ namespace WebApiSample.Controllers
                 {
                     responseMsg = "update fail";
                 }
-                return Task.FromResult(responseMsg);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
+                responseMsg = "update fail";
+                //throw;
             }
+            return Task.FromResult(responseMsg);
         }
         [HttpDelete("{CustomerID:alpha}")]
         public Task<string> DeleteCustomerByID(string CustomerID)
         {
+            string responseMsg;
             try
             {
                 var updateResult = _ICustomerService.DeleteCustomerByID(CustomerID).Result;
-                string responseMsg;
                 if (updateResult > 0)
                 {
                     responseMsg = "delete success";
@@ -77,13 +77,36 @@ namespace WebApiSample.Controllers
                 {
                     responseMsg = "delete fail";
                 }
-                return Task.FromResult(responseMsg);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
+                responseMsg = "delete fail";
+                //throw;
             }
+            return Task.FromResult(responseMsg);
+        }
+        [HttpPost]
+        public Task<string> PostCustomer(Customers customers)
+        {
+            string responseMsg;
+            try
+            {
+                var result = _ICustomerService.PostCustomer(customers).Result;
+                if (result > 0)
+                {
+                    responseMsg = "post success";
+                }
+                else
+                {
+                    responseMsg = "post fail";
+                }
+            }
+            catch (Exception)
+            {
+                responseMsg = "post fail";
+                //throw;
+            }
+            return Task.FromResult(responseMsg);
         }
     }
 }

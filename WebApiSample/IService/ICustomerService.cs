@@ -8,5 +8,6 @@ namespace WebApiSample.IService
         Task<Customers> GetCustomerByID(string CustomerID);
         Task<int> UpdateCustomerByID(Customers _Customer);
         Task<int> DeleteCustomerByID(string CustomerID);
+        Task<int> PostCustomer(Customers customers);
     }
 }
