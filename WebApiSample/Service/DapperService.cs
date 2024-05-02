@@ -54,7 +54,6 @@ namespace WebApiSample.Service
             }
             catch (Exception ex)
             {
-
                 Console.WriteLine(ex.Message);
                 throw;
             }
