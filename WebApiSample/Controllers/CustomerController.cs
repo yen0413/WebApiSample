@@ -25,12 +25,43 @@ namespace WebApiSample.Controllers
                 return Task.FromResult(new List<Customers>());
                 throw;
             }
-           
+
         }
         [HttpPost("GetCustomerByID")]
-        public Task<List<Customers>> GetCustomerByID(Customers customer)
+        public Task<Customers> GetCustomerByID(Customers customer)
         {
-            return _ICustomerService.GetCustomerByID(customer);
+            try
+            {
+                return _ICustomerService.GetCustomerByID(customer);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        [HttpPut("UpdateCustomerByID")]
+        public Task<string> UpdateCustomerByID(Customers customer)
+        {
+            try
+            {
+                var updateResult = _ICustomerService.UpdateCustomerByID(customer).Result;
+                string responseMsg;
+                if (updateResult > 0)
+                {
+                    responseMsg = "update success";
+                }
+                else
+                {
+                    responseMsg = "update fail";
+                }
+                return Task.FromResult(responseMsg);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }

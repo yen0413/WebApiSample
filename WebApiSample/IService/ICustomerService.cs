@@ -5,6 +5,7 @@ namespace WebApiSample.IService
     public interface ICustomerService
     {
         Task<List<Customers>> GetAllCustomers();
-        Task<List<Customers>> GetCustomerByID(Customers _Customer);
+        Task<Customers> GetCustomerByID(Customers _Customer);
+        Task<int> UpdateCustomerByID(Customers _Customer);
     }
 }
