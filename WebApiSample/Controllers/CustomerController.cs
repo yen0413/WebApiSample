@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApiSample.IService;
 using WebApiSample.Model;
 
@@ -18,7 +19,14 @@ namespace WebApiSample.Controllers
         {
             try
             {
-                return _ICustomerService.GetAllCustomers();
+                var allCustomerList = _ICustomerService.GetAllCustomers();
+                foreach (var item in allCustomerList.Result)
+                {
+                    item.CustomerID = item.CustomerID
+                                          .Substring(0, item.CustomerID.Length - 2) + "**";
+                }
+
+                return allCustomerList;
             }
             catch (Exception ex)
             {
@@ -35,7 +43,6 @@ namespace WebApiSample.Controllers
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
