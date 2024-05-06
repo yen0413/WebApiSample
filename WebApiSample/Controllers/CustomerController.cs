@@ -34,6 +34,7 @@ namespace WebApiSample.Controllers
                 throw;
             }
         }
+        [Authorize]
         [HttpGet("{CustomerID:alpha}")]
         public Task<Customers> GetCustomerByID(string CustomerID)
         {
@@ -46,6 +47,7 @@ namespace WebApiSample.Controllers
                 throw;
             }
         }
+        [Authorize]
         [HttpPut("UpdateCustomerByID")]
         public Task<string> UpdateCustomerByID(Customers customer)
         {
@@ -62,13 +64,15 @@ namespace WebApiSample.Controllers
                     responseMsg = "update fail";
                 }
             }
-            catch (Exception)
+            catch (Exception ex )
             {
-                responseMsg = "update fail";
+                responseMsg = $"update fail ; errorMsg : {ex.Message}";
                 //throw;
             }
             return Task.FromResult(responseMsg);
         }
+
+        [Authorize]
         [HttpDelete("{CustomerID:alpha}")]
         public Task<string> DeleteCustomerByID(string CustomerID)
         {
@@ -85,14 +89,15 @@ namespace WebApiSample.Controllers
                     responseMsg = "delete fail";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                responseMsg = "delete fail";
+                responseMsg = $"delete fail  ; errorMsg : {ex.Message}";
                 //throw;
             }
             return Task.FromResult(responseMsg);
         }
-        [HttpPost]
+        [Authorize]
+        [HttpPost("PostCustomer")]
         public Task<string> PostCustomer(Customers customers)
         {
             string responseMsg;
@@ -108,9 +113,9 @@ namespace WebApiSample.Controllers
                     responseMsg = "post fail";
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                responseMsg = "post fail";
+                responseMsg = $"post fail ; errorMsg : {ex.Message}";
                 //throw;
             }
             return Task.FromResult(responseMsg);

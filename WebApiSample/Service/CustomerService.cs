@@ -28,7 +28,7 @@ namespace WebApiSample.Service
             var result = _dapperService.Get<Customers>(sql, dbPara, commandType: CommandType.Text);
             return Task.FromResult(result);
         }
-        public Task<int> UpdateCustomerByID(Customers _Customer) 
+        public Task<int> UpdateCustomerByID(Customers _Customer)
         {
             string sql = @"UPDATE Customers SET 
                             [CompanyName] = @CompanyName
@@ -56,7 +56,7 @@ namespace WebApiSample.Service
             return Task.FromResult(result);
         }
 
-        public Task<int> PostCustomer(Customers customers) 
+        public Task<int> PostCustomer(Customers customers)
         {
             string sql = @"INSERT INTO Customers VALUES (
                             @CustomerID,@CompanyName,@ContactName,
