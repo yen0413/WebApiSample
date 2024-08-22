@@ -1,12 +1,12 @@
 ## Web Api Sample
 
-主要功能為展示Web API的CRUD
+This project is Web API Sample.
 
-### 功能特色
+### Features:
 
-1. Framework : .NET8.0
-2. 使用 JWT 做權限登入
-3. API 呼叫權限控管
-4. 使用 Dapper 做資料存取
-5. LocalDB 使用 Northwind 作範例
-6. 使用 MSTest 做 unit test 驗證資料邏輯
+1. Framework: .NET 8.0
+2. JWT for authentication
+3. API access control
+4. Data access using Dapper
+5. LocalDB with Northwind as an example
+6. MSTest for unit testing to verify data logic
