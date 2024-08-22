@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WebApiSample.IService;
 using WebApiSample.Model;
 
 namespace WebApiSample.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -25,7 +27,6 @@ namespace WebApiSample.Controllers
                     item.CustomerID = item.CustomerID
                                           .Substring(0, item.CustomerID.Length - 2) + "**";
                 }
-
                 return allCustomerList;
             }
             catch (Exception ex)
@@ -34,7 +35,16 @@ namespace WebApiSample.Controllers
                 throw;
             }
         }
-        [Authorize]
+        [HttpGet("{id}")]
+        //[ProducesResponseType<Customers>(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<Results<Ok<Customers>, NotFound>> GetCustomerByIDWithResults(string CustomerID)
+        {
+            var Customer = await _ICustomerService.GetCustomerByIDWithResults(CustomerID);
+            return Customer == null ? TypedResults.NotFound() : TypedResults.Ok(Customer);
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("{CustomerID:alpha}")]
         public Task<Customers> GetCustomerByID(string CustomerID)
         {
@@ -47,7 +57,6 @@ namespace WebApiSample.Controllers
                 throw;
             }
         }
-        [Authorize]
         [HttpPut("UpdateCustomerByID")]
         public Task<string> UpdateCustomerByID(Customers customer)
         {
@@ -64,15 +73,13 @@ namespace WebApiSample.Controllers
                     responseMsg = "update fail";
                 }
             }
-            catch (Exception ex )
+            catch (Exception)
             {
-                responseMsg = $"update fail ; errorMsg : {ex.Message}";
+                responseMsg = "update fail";
                 //throw;
             }
             return Task.FromResult(responseMsg);
         }
-
-        [Authorize]
         [HttpDelete("{CustomerID:alpha}")]
         public Task<string> DeleteCustomerByID(string CustomerID)
         {
@@ -89,15 +96,14 @@ namespace WebApiSample.Controllers
                     responseMsg = "delete fail";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                responseMsg = $"delete fail  ; errorMsg : {ex.Message}";
+                responseMsg = "delete fail";
                 //throw;
             }
             return Task.FromResult(responseMsg);
         }
-        [Authorize]
-        [HttpPost("PostCustomer")]
+        [HttpPost]
         public Task<string> PostCustomer(Customers customers)
         {
             string responseMsg;
@@ -113,9 +119,9 @@ namespace WebApiSample.Controllers
                     responseMsg = "post fail";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                responseMsg = $"post fail ; errorMsg : {ex.Message}";
+                responseMsg = "post fail";
                 //throw;
             }
             return Task.FromResult(responseMsg);

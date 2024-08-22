@@ -17,7 +17,20 @@ namespace WebApiSample.Service
             DynamicParameters dbPara = new();
             string sql = @"SELECT * FROM Customers";
             var result = _dapperService.GetAll<Customers>(sql, dbPara, commandType: CommandType.Text);
-
+            foreach (var item in result)
+            {
+                string CustomerIDFormat =
+                    item.CustomerID.Substring(0, item.CustomerID.Length - 2) + "**";
+                item.CustomerID = CustomerIDFormat;
+            }
+            return Task.FromResult(result);
+        }
+        public Task<Customers> GetCustomerByIDWithResults(string CustomerID)
+        {
+            DynamicParameters dbPara = new();
+            dbPara.Add("CustomerID", CustomerID);
+            string sql = @"SELECT * FROM Customers WHERE CustomerID = @CustomerID";
+            var result = _dapperService.Get<Customers>(sql, dbPara, commandType: CommandType.Text);
             return Task.FromResult(result);
         }
         public Task<Customers> GetCustomerByID(string CustomerID)
