@@ -4,7 +4,7 @@
 
 ### 功能特色
 
-1. Framework : .NET 6.0
+1. Framework : .NET8.0
 2. 使用 JWT 做權限登入
 3. API 呼叫權限控管
 4. 使用 Dapper 做資料存取
